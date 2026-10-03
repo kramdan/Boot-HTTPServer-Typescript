@@ -7,15 +7,16 @@ const port = 8080;
 function main() {
 
     app.use("/app", middlewareMetricsInc, express.static("./src/app"));
-    app.get("/metrics",  (req: Request, res: Response) => {
-        res.write(`Hits: ${config.fileserverHits}`);
+    app.get("/admin/metrics", (req: Request, res: Response) => {
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.write(`<html><body><h1>Welcome, Chirpy Admin</h1><p>Chirpy has been visited ${config.fileserverHits} times!</p></body></html>`);
         res.end();
     });
-    app.get("/healthz", (req: Request, res: Response) => {
+    app.get("/api/healthz", (req: Request, res: Response) => {
         res.set({'Content-Type': 'text/plain'});
         res.send(`${res.statusCode} OK`);
     });
-    app.get("/reset", (req: Request, res: Response) => {
+    app.get("/admin/reset", (req: Request, res: Response) => {
         config.fileserverHits = 0;
         res.write("Set hits to 0");
         res.end();
