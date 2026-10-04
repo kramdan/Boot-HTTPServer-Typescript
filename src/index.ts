@@ -16,10 +16,37 @@ function main() {
         res.set({'Content-Type': 'text/plain'});
         res.send(`${res.statusCode} OK`);
     });
-    app.get("/admin/reset", (req: Request, res: Response) => {
+    app.post("/admin/reset", (req: Request, res: Response) => {
         config.fileserverHits = 0;
         res.write("Set hits to 0");
         res.end();
+    });
+    app.post("/api/validate_chirp", express.json(), (req: Request, res: Response) => {
+        type content = {
+            body: string
+        };
+        const profaneWords = ["kerfuffle", "sharbert", "fornax"];
+        const cont: content = req.body;
+
+        if (cont.body.length <= 140){
+            let cleaned = "";
+            const contSplit = cont.body.split(" ");
+
+            for (const word in contSplit) {
+                if (profaneWords.includes(contSplit[word].toLowerCase())) {
+                    contSplit[word] = "****";
+                }
+            }
+            cleaned = contSplit.join(" ");
+
+            res.status(200).send({
+                "cleanedBody": cleaned
+            });
+        } else {
+            res.status(400).send({
+                "error": "Chirp is too long"
+            });
+        }
     });
     app.use(middlewareLogResponse);
     app.listen(port, () => {
