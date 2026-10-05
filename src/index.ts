@@ -1,5 +1,6 @@
 import express, { NextFunction, request, response, type Express, type Request, type Response } from 'express';
 import { config, middlewareMetricsInc }from './config.js';
+import { BadRequestError, UnauthorizedError, ForbiddenError, NotFoundError } from './error_classes.js';
 
 const app: Express = express();
 const port = 8080;
@@ -43,12 +44,12 @@ function main() {
                 "cleanedBody": cleaned
             });
         } else {
-            res.status(400).send({
-                "error": "Chirp is too long"
-            });
+            throw new BadRequestError("Chirp is too long. Max length is 140");
+            
         }
     });
     app.use(middlewareLogResponse);
+    app.use(middlewareLogError);
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`);
     });
@@ -62,6 +63,19 @@ function middlewareLogResponse(req: Request, res: Response, next: NextFunction):
         }
     });
     next();
+}
+
+function middlewareLogError(err: Error, req: Request, res: Response, next: NextFunction): void {
+    console.error("Something went wrong on our end");
+    switch (true) {
+        case err instanceof BadRequestError:
+            res.status(400).json({ error: err.message });
+        default:
+            res.status(500).json({ error: "Something went wrong on our end" });
+    }
+        
+        
+    
 }
 
 main();
