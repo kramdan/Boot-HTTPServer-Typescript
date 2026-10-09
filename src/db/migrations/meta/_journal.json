@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791321882825,
+      "tag": "0000_new_johnny_blaze",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791330018962,
+      "tag": "0001_classy_thunderbolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791408887804,
+      "tag": "0002_wild_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791418698057,
+      "tag": "0003_early_victor_mancha",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791582709399,
+      "tag": "0004_common_machine_man",
+      "breakpoints": true
+    }
+  ]
+}
